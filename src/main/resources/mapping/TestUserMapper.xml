@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.yangys.mymanager.dao.TestUserMapper" >
+  <resultMap id="BaseResultMap" type="cn.yangys.mymanager.model.TestUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="login" property="login" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="firstName" property="firstname" jdbcType="VARCHAR" />
+    <result column="lastName" property="lastname" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="BIT" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="hireDate" property="hiredate" jdbcType="DATE" />
+    <result column="lastLogin" property="lastlogin" jdbcType="TIMESTAMP" />
+    <result column="departmentId" property="departmentid" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.yangys.mymanager.model.TestUserWithBLOBs" extends="BaseResultMap" >
+    <result column="photo" property="photo" jdbcType="LONGVARBINARY" />
+    <result column="description" property="description" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, login, password, firstName, lastName, sex, birthday, hireDate, lastLogin, departmentId
+  </sql>
+  <sql id="Blob_Column_List" >
+    photo, description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from testuser
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from testuser
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.yangys.mymanager.model.TestUserWithBLOBs" >
+    insert into testuser (id, login, password, 
+      firstName, lastName, sex, 
+      birthday, hireDate, lastLogin, 
+      departmentId, photo, description
+      )
+    values (#{id,jdbcType=INTEGER}, #{login,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{firstname,jdbcType=VARCHAR}, #{lastname,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, 
+      #{birthday,jdbcType=DATE}, #{hiredate,jdbcType=DATE}, #{lastlogin,jdbcType=TIMESTAMP}, 
+      #{departmentid,jdbcType=INTEGER}, #{photo,jdbcType=LONGVARBINARY}, #{description,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.yangys.mymanager.model.TestUserWithBLOBs" >
+    insert into testuser
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="login != null" >
+        login,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="firstname != null" >
+        firstName,
+      </if>
+      <if test="lastname != null" >
+        lastName,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="hiredate != null" >
+        hireDate,
+      </if>
+      <if test="lastlogin != null" >
+        lastLogin,
+      </if>
+      <if test="departmentid != null" >
+        departmentId,
+      </if>
+      <if test="photo != null" >
+        photo,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="login != null" >
+        #{login,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="firstname != null" >
+        #{firstname,jdbcType=VARCHAR},
+      </if>
+      <if test="lastname != null" >
+        #{lastname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=BIT},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="hiredate != null" >
+        #{hiredate,jdbcType=DATE},
+      </if>
+      <if test="lastlogin != null" >
+        #{lastlogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="departmentid != null" >
+        #{departmentid,jdbcType=INTEGER},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.yangys.mymanager.model.TestUserWithBLOBs" >
+    update testuser
+    <set >
+      <if test="login != null" >
+        login = #{login,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="firstname != null" >
+        firstName = #{firstname,jdbcType=VARCHAR},
+      </if>
+      <if test="lastname != null" >
+        lastName = #{lastname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=BIT},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="hiredate != null" >
+        hireDate = #{hiredate,jdbcType=DATE},
+      </if>
+      <if test="lastlogin != null" >
+        lastLogin = #{lastlogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="departmentid != null" >
+        departmentId = #{departmentid,jdbcType=INTEGER},
+      </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.yangys.mymanager.model.TestUserWithBLOBs" >
+    update testuser
+    set login = #{login,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      firstName = #{firstname,jdbcType=VARCHAR},
+      lastName = #{lastname,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      birthday = #{birthday,jdbcType=DATE},
+      hireDate = #{hiredate,jdbcType=DATE},
+      lastLogin = #{lastlogin,jdbcType=TIMESTAMP},
+      departmentId = #{departmentid,jdbcType=INTEGER},
+      photo = #{photo,jdbcType=LONGVARBINARY},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.yangys.mymanager.model.TestUser" >
+    update testuser
+    set login = #{login,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      firstName = #{firstname,jdbcType=VARCHAR},
+      lastName = #{lastname,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      birthday = #{birthday,jdbcType=DATE},
+      hireDate = #{hiredate,jdbcType=DATE},
+      lastLogin = #{lastlogin,jdbcType=TIMESTAMP},
+      departmentId = #{departmentid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+   <!-- ==============以下内容是根据自身业务扩展的内容======================= -->
+      <!-- select标签的id属性与UserMapper接口中定义的getAllUser方法要一模一样 -->
+    <select id="getAllTestUser" resultMap="BaseResultMap">
+       select  
+    	<include refid="Base_Column_List" />
+       from testuser
+    </select>
+</mapper>

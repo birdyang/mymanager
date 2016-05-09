@@ -1,0 +1,12 @@
+Mybatis3.x与Spring4.x整合：
+  http://www.cnblogs.com/xdp-gacl/p/4271627.html
+1. 引入spring-core
+spring-context
+spring-tx
+spring-jdbc
+spring-test
+spring-web
+org.aspectj.aspectjweaver
+2. 引入mybatis的包
+mybatis
+3. 引入mybatis-spring
