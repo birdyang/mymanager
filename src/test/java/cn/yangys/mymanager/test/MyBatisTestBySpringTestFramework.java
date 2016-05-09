@@ -1,12 +1,17 @@
 package cn.yangys.mymanager.test;
 
 import java.util.Calendar;
+import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.spi.LoggerFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.alibaba.fastjson.JSON;
 
 import cn.yangys.mymanager.model.TestUser;
 import cn.yangys.mymanager.service.TestUserService;
@@ -15,6 +20,9 @@ import cn.yangys.mymanager.service.TestUserService;
 //配置了@ContextConfiguration注解并使用该注解的locations属性指明spring和配置文件之后，
 @ContextConfiguration(locations = {"classpath:spring.xml", "classpath:spring-mybatis.xml" })
 public class MyBatisTestBySpringTestFramework {
+	
+	private static final Logger logger = Logger.getLogger(MyBatisTestBySpringTestFramework.class);
+	
 	//注入userService
     @Autowired
     private TestUserService testUserService;
@@ -35,6 +43,13 @@ public class MyBatisTestBySpringTestFramework {
     public void testGetUserById(){
         Integer testUserId = 2;
        TestUser testUser = testUserService.getTestUserById(testUserId);
-        System.out.println(testUser.getLogin());
+       logger.info(JSON.toJSONStringWithDateFormat(testUser, "yyyy-MM-dd HH:mm:ss.sss"));
     }
+    
+    @Test
+    public void testGetAllTestUsers(){
+       List<TestUser> testUsers = testUserService.getAllTestUser();
+       logger.info(JSON.toJSONStringWithDateFormat(testUsers, "yyyy-MM-dd HH:mm:ss.sss"));
+    }
+    
 }

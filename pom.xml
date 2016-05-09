@@ -15,7 +15,7 @@
 			<artifactId>spring-core</artifactId>
 			<version>4.2.6.RELEASE</version>
 		</dependency>
-		
+
 		<!-- spring-beans -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -23,44 +23,40 @@
 			<version>4.2.6.RELEASE</version>
 		</dependency>
 
-	<!-- spring-tx -->
+		<!-- spring-tx -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 			<version>4.2.6.RELEASE</version>
 		</dependency>
-		
+
+		<!-- spring-aop -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
 			<version>4.2.6.RELEASE</version>
 		</dependency>
-		
+
+		<!-- spring-expression -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-expression</artifactId>
 			<version>4.2.6.RELEASE</version>
 		</dependency>
 
-<!-- spring-context -->
+		<!-- spring-context -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>4.2.6.RELEASE</version>
 		</dependency>
 
-<!-- spring-webmvc -->
+		<!-- spring-webmvc -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>4.2.6.RELEASE</version>
 		</dependency>
-		
-		
-
-		
-
-	
 
 		<!-- spring-jdbc -->
 		<dependency>
@@ -76,21 +72,30 @@
 			<version>4.2.6.RELEASE</version>
 		</dependency>
 
-
-		<!-- spring-web -->
-		<!-- <dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>4.2.6.RELEASE</version>
-		</dependency> -->
-
-		
-
 		<!-- aspectjweaver -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 			<version>1.8.9</version>
+		</dependency>
+
+		<!-- jackson -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.7.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.7.4</version>
+		</dependency>
+
+		<!-- fileupload -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.1</version>
 		</dependency>
 
 		<!-- mybatis -->
@@ -121,6 +126,7 @@
 			<version>1.0.19</version>
 		</dependency>
 
+		<!-- servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -128,14 +134,81 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- junit -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- log4j -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
+		<!-- fastjson -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.11</version>
+		</dependency>
 	</dependencies>
+
 	<build>
 		<finalName>mymanager</finalName>
+		<defaultGoal>clean install jetty:run</defaultGoal>
+		<plugins>
+			<!-- jetty plugin -->
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>6.1.9</version>
+				<configuration>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<stopKey>foo</stopKey>
+					<stopPort>9998</stopPort>
+				</configuration>
+				<executions>
+					<execution>
+						<id>start-jetty</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<scanIntervalSeconds>0</scanIntervalSeconds>
+							<daemon>true</daemon>
+
+							<jettyConfig>
+							</jettyConfig>
+						</configuration>
+					</execution>
+					<execution>
+						<id>stop-jetty</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- war plugin -->
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+			</plugin>
+
+			<!-- compile plugin -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>
