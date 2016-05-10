@@ -10,3 +10,6 @@ org.aspectj.aspectjweaver
 2. 引入mybatis的包
 mybatis
 3. 引入mybatis-spring
+
+
+mybatis的xml提示功能：需要在Window--preferences-XML-XML Catalog-add 使用URI的方式： http://mybatis.org/dtd/mybatis-3-mapper.dtd 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.yangys.mymanager.dao.TestUserMapper" >
+<mapper namespace="cn.yangys.mymanager.dao.TestUserMapper">
   <resultMap id="BaseResultMap" type="cn.yangys.mymanager.model.TestUser" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="login" property="login" jdbcType="VARCHAR" />
@@ -195,10 +195,124 @@
   </update>
   
    <!-- ==============以下内容是根据自身业务扩展的内容======================= -->
-      <!-- select标签的id属性与UserMapper接口中定义的getAllUser方法要一模一样 -->
-    <select id="getAllTestUser" resultMap="BaseResultMap">
-       select  
-    	<include refid="Base_Column_List" />
-       from testuser
+	<!-- select标签的id属性与UserMapper接口中定义的getAllUser方法要一模一样 -->
+	<select id="getAllTestUser" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from testuser
+	</select>
+    
+    <!-- 查询关联表   - 使用另外一个select进行下次查询  -->
+    <select id="selectUserRole"  resultType="cn.yangys.mymanager.model.TestRole" parameterType="java.lang.Integer" >
+	    SELECT
+			testuser_testrole.testuser_id,
+			testuser_testrole.id,
+			testuser_testrole.testrole_id
+		FROM
+			testuser_testrole
+	    WHERE 
+	    	testuser_testrole.testuser_id = #{id,jdbcType=INTEGER}
     </select>
+
+	<resultMap id="userResultMap1" type="cn.yangys.mymanager.model.TestUser" extends="BaseResultMap">
+		<collection property="testUserTestRoles" column="id" javaType="list" select="selectUserRole"></collection>
+	</resultMap>
+  
+  <select id="getAllTestUser1" resultMap="userResultMap1">
+ 	 select 
+ 	    <include refid="Base_Column_List" />
+   	 from 
+   	    testuser
+  </select>
+
+	<!-- 查询关联表 - 关联一个表 使用ofType的方式获取新属性 -->
+	<resultMap id="userResultMap2" type="cn.yangys.mymanager.model.TestUser" extends="BaseResultMap">
+		<collection property="testUserTestRoles" javaType="list" ofType="cn.yangys.mymanager.model.TestUserTestRole">
+			<id property="id" column="userrole_id" />
+			<result property="testroleId" column="role_id" />
+			<result property="testuserId" column="user_id" />
+		</collection>
+	</resultMap>
+    
+     <select id="getAllTestUser2" resultMap="userResultMap2">
+  		select 
+	  		testuser.id,
+			testuser.login,
+			testuser.`password`,
+			testuser.firstName,
+			testuser.lastName,
+			testuser.sex,
+			testuser.birthday,
+			testuser.hireDate,
+			testuser.lastLogin,
+			testuser.departmentId,
+			testuser_testrole.testuser_id userrole_id,
+			testuser_testrole.id role_id,
+			testuser_testrole.testrole_id user_id
+		FROM
+			testuser_testrole
+	    LEFT JOIN testuser ON testuser.id = testuser_testrole.testuser_id
+	</select>
+
+	<!-- 查询关联表 - 使用association 在关联表中使用associate进行查询 -->
+	<resultMap id="userResultMap3" type="cn.yangys.mymanager.model.TestUser" extends="BaseResultMap">
+
+		<collection property="testUserTestRoles" javaType="list" ofType="cn.yangys.mymanager.model.TestUserTestRole">
+			<id property="id" column="userrole_id" />
+			<association property="testRole" javaType="cn.yangys.mymanager.model.TestRole">
+				<result property="id" column="role_id" />
+				<result property="rolename" column="role_name" />
+			</association>
+		</collection>
+	</resultMap>
+	
+	<select id="getAllTestUser3" resultMap="userResultMap3">
+  		SELECT
+			testuser.id,
+			testuser.login,
+			testuser.`password`,
+			testuser.firstName,
+			testuser.lastName,
+			testuser.sex,
+			testuser.birthday,
+			testuser.hireDate,
+			testuser.lastLogin,
+			testuser.departmentId,
+			testuser_testrole.testuser_id userrole_id,
+			testrole.id role_id,
+			testrole.roleName role_name
+		FROM
+			testuser
+		LEFT JOIN testuser_testrole ON testuser.id = testuser_testrole.testuser_id
+	    LEFT JOIN testrole ON testuser_testrole.testrole_id = testrole.id
+	</select>
+
+	<!-- 多表查询 - 不使用关联表，直接使用该对象中的集合 -->
+	<resultMap id="userResultMap4" type="cn.yangys.mymanager.model.TestUser" extends="BaseResultMap">
+		<collection property="testRoles" javaType="list" ofType="cn.yangys.mymanager.model.TestRole">
+			<result property="id" column="role_id" />
+			<result property="rolename" column="role_name" />
+		</collection>
+	</resultMap>
+  	
+	<select id="getAllTestUser4" resultMap="userResultMap4">
+  		SELECT
+			testuser.id,
+			testuser.login,
+			testuser.`password`,
+			testuser.firstName,
+			testuser.lastName,
+			testuser.sex,
+			testuser.birthday,
+			testuser.hireDate,
+			testuser.lastLogin,
+			testuser.departmentId,
+			testuser_testrole.testuser_id userrole_id,
+			testrole.id role_id,
+			testrole.roleName role_name
+		FROM
+			testuser
+		LEFT JOIN testuser_testrole ON testuser.id = testuser_testrole.testuser_id
+	    LEFT JOIN testrole ON testuser_testrole.testrole_id = testrole.id
+	</select>
 </mapper>

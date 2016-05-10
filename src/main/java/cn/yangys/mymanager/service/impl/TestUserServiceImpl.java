@@ -44,4 +44,24 @@ public class TestUserServiceImpl implements TestUserService {
 		return testUserMapper.getAllTestUser();
 	}
 
+	@Override
+	public List<TestUser> getAllTestUser1() {
+		return testUserMapper.getAllTestUser1();
+	}
+	
+	@Override
+	public List<TestUser> getAllTestUser2() {
+		return testUserMapper.getAllTestUser2();
+	}
+	
+	@Override
+	public List<TestUser> getAllTestUser3() {
+		return testUserMapper.getAllTestUser3();
+	}
+	@Override
+	public List<TestUser> getAllTestUser4() {
+		return testUserMapper.getAllTestUser4();
+	}
+	
+
 }

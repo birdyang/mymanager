@@ -22,4 +22,12 @@ public interface TestUserService {
      * @return List<TestUser>
      */
     List<TestUser> getAllTestUser();
+    
+    List<TestUser> getAllTestUser1();
+    
+    List<TestUser> getAllTestUser2();
+    
+ List<TestUser> getAllTestUser3();
+    
+    List<TestUser> getAllTestUser4();
 }

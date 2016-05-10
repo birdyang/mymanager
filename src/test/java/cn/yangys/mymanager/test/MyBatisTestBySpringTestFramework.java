@@ -28,13 +28,25 @@ public class MyBatisTestBySpringTestFramework {
     private TestUserService testUserService;
     
     @Test
-    public void testAddUser(){
+    public void testAddUser2(){
     	TestUser testUser = new TestUser();
         testUser.setLogin("admin1@comapny.com");
         testUser.setFirstname("Li");
         testUser.setLastname("Peter");
         Calendar instance = Calendar.getInstance();
         instance.set(1990, 9, 1);
+        testUser.setBirthday(instance.getTime());
+        testUserService.addTestUser(testUser);
+    }
+    
+    @Test
+    public void testAddUser3(){
+    	TestUser testUser = new TestUser();
+        testUser.setLogin("admin3@comapny.com");
+        testUser.setFirstname("Yu");
+        testUser.setLastname("Jerry");
+        Calendar instance = Calendar.getInstance();
+        instance.set(1991, 4, 1);
         testUser.setBirthday(instance.getTime());
         testUserService.addTestUser(testUser);
     }
@@ -50,6 +62,31 @@ public class MyBatisTestBySpringTestFramework {
     public void testGetAllTestUsers(){
        List<TestUser> testUsers = testUserService.getAllTestUser();
        logger.info(JSON.toJSONStringWithDateFormat(testUsers, "yyyy-MM-dd HH:mm:ss.sss"));
+    }
+    
+    @Test
+    public void testGetAllTestUsers1(){
+    	// n+1 次查询 不推荐 ，影响效率
+       List<TestUser> testUsers = testUserService.getAllTestUser1();
+       logger.error(JSON.toJSONStringWithDateFormat(testUsers, "yyyy-MM-dd HH:mm:ss.sss"));
+    }
+    
+    @Test
+    public void testGetAllTestUsers2(){
+       List<TestUser> testUsers = testUserService.getAllTestUser2();
+       logger.error(JSON.toJSONStringWithDateFormat(testUsers, "yyyy-MM-dd HH:mm:ss.sss"));
+    }
+    
+    @Test
+    public void testGetAllTestUsers3(){
+       List<TestUser> testUsers = testUserService.getAllTestUser3();
+       logger.error(JSON.toJSONStringWithDateFormat(testUsers, "yyyy-MM-dd HH:mm:ss.sss"));
+    }
+    
+    @Test
+    public void testGetAllTestUsers4(){
+       List<TestUser> testUsers = testUserService.getAllTestUser4();
+       logger.error(JSON.toJSONStringWithDateFormat(testUsers, "yyyy-MM-dd HH:mm:ss.sss"));
     }
     
 }

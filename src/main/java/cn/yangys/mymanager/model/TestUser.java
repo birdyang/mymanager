@@ -1,6 +1,7 @@
 package cn.yangys.mymanager.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class TestUser {
     private Integer id;
@@ -22,6 +23,10 @@ public class TestUser {
     private Date lastlogin;
 
     private Integer departmentid;
+    
+    private List<TestUserTestRole> testUserTestRoles;
+    
+    private List<TestRole> testRoles;
 
     public Integer getId() {
         return id;
@@ -102,4 +107,21 @@ public class TestUser {
     public void setDepartmentid(Integer departmentid) {
         this.departmentid = departmentid;
     }
+    
+	public List<TestUserTestRole> getTestUserTestRoles() {
+		return testUserTestRoles;
+	}
+
+	public void setTestUserTestRoles(List<TestUserTestRole> testUserTestRoles) {
+		this.testUserTestRoles = testUserTestRoles;
+	}
+
+	public List<TestRole> getTestRoles() {
+		return testRoles;
+	}
+
+	public void setTestRoles(List<TestRole> testRoles) {
+		this.testRoles = testRoles;
+	}
+    
 }
